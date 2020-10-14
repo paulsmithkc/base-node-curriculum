@@ -10,7 +10,7 @@ router.use(express.json());
 const sendError = (err, res) => {
   debug(err);
   if (err.isJoi) {
-    res.json({ error: err.details.map((x) => x.message).join('\n') });
+    res.json({ error: err.details.map((x) => x.message + '.').join('\n') });
   } else {
     res.json({ error: err.message });
   }

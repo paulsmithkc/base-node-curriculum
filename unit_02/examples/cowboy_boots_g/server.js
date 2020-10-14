@@ -64,7 +64,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   debug(err.stack);
   const message = err.isJoi
-    ? err.details.map((x) => x.message).join('\n')
+    ? err.details.map((x) => x.message + '.').join('\n')
     : err.message;
 
   if (req.xhr || !req.accepts('html')) {
