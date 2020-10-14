@@ -38,10 +38,22 @@
         >
           {{> select-option-list paidOptionList}}
         </select>
+        <label for="pageSize" class="sr-only">
+          Page Size
+        </label>
+        <select
+          id="pageSize"
+          name="pageSize"
+          class="custom-select w-auto"
+        >
+          {{> select-option-list pager.pageSizeOptions}}
+        </select>
       </div>
     </fieldset>
   </form>
+  {{> pager pager}}
   <div>
     {{> order-list orders}}
   </div>
+  {{> pager pager}}
 </main>

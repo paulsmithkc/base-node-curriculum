@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../db');
 const _ = require('lodash');
 const moment = require('moment');
+const pagerUtils = require('../pager-utils');
 //const debug = require('debug')('app:routes:order');
 
 // create and configure router
@@ -11,6 +12,19 @@ router.get('/', async (req, res, next) => {
   try {
     const paid = req.query.paid;
     const search = req.query.search;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const pageNumber = parseInt(req.query.page) || 1;
+
+    const paidOptionList = {
+      selected: paid || '',
+      options: [
+        { value: '', text: 'All Orders' },
+        { value: '0', text: 'Today' },
+        { value: '-30', text: 'Last 30 days' },
+        { value: '-90', text: 'Last 90 days' },
+        { value: '-365', text: 'Past year' },
+      ],
+    };
 
     let query = db.getAllOrdersWithItemCount();
     if (paid) {
@@ -25,18 +39,13 @@ router.get('/', async (req, res, next) => {
     } else {
       query = query.orderBy('id', 'desc');
     }
-    const orders = await query;
+    
+    const pager = await pagerUtils.getPager(query, pageSize, pageNumber, req.originalUrl);
+    //debug(`pager = ${JSON.stringify(pager, null, 2)}`);
 
-    const paidOptionList = {
-      selected: paid || '',
-      options: [
-        { value: '', text: 'All Orders' },
-        { value: '0', text: 'Today' },
-        { value: '-30', text: 'Last 30 days' },
-        { value: '-90', text: 'Last 90 days' },
-        { value: '-365', text: 'Past year' },
-      ],
-    };
+    const orders = await query
+      .limit(pageSize)
+      .offset(pageSize * (pageNumber - 1));
 
     res.render('order/list', {
       title: 'Order List',
@@ -44,6 +53,7 @@ router.get('/', async (req, res, next) => {
       paid,
       paidOptionList,
       search,
+      pager,
     });
   } catch (err) {
     next(err);

@@ -49,8 +49,8 @@ router.get('/', async (req, res, next) => {
       title: 'Product List',
       products,
       category,
-      search,
       categoryOptionList,
+      search,
       pager,
     });
   } catch (err) {
