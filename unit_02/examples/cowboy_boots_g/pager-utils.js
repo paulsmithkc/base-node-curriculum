@@ -17,24 +17,26 @@ const getPager = async (query, pageSize, pageNumber, url) => {
     count,
     pageSize,
     pageNumber,
-    pages: [],
     pageSizeOptions: getPageSizeOptions(pageSize),
   };
-  for (let i = 0, p = 1; i < count; i += pageSize, ++p) {
-    pager.pages.push({
-      url: getPageUrl(url, p),
-      text: p,
-      active: p == pageNumber,
-    });
-  }
-  if (pageNumber > 1) {
-    pager.firstUrl = getPageUrl(url, 1);
-    pager.prevUrl = getPageUrl(url, pageNumber - 1);
-  }
-  const lastPage = pager.pages.length;
-  if (pageNumber < lastPage) {
-    pager.lastUrl = getPageUrl(url, lastPage);
-    pager.nextUrl = getPageUrl(url, pageNumber + 1);
+  if (count > pageSize) {
+    pager.pages = [];
+    for (let i = 0, p = 1; i < count; i += pageSize, ++p) {
+      pager.pages.push({
+        url: getPageUrl(url, p),
+        text: p,
+        active: p == pageNumber,
+      });
+    }
+    if (pageNumber > 1) {
+      pager.firstUrl = getPageUrl(url, 1);
+      pager.prevUrl = getPageUrl(url, pageNumber - 1);
+    }
+    const lastPage = pager.pages.length;
+    if (pageNumber < lastPage) {
+      pager.lastUrl = getPageUrl(url, lastPage);
+      pager.nextUrl = getPageUrl(url, pageNumber + 1);
+    }
   }
   return pager;
 };

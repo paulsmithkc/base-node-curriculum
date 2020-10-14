@@ -56,11 +56,7 @@
       </div>
     </fieldset>
   </form>
-  <div>
-    {{#if pager}}
-      {{> pager pager}}
-    {{/if}}
-  </div>
+  {{> pager pager}}
   <div class="row">
     {{#each products}}
       <div class="col-lg-6 d-flex">
@@ -105,4 +101,5 @@
       </div>
     {{/each}}
   </div>
+  {{> pager pager}}
 </main>
