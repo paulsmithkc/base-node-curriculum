@@ -39,7 +39,12 @@ router.get('/', async (req, res, next) => {
       query = query.orderBy('family_name').orderBy('given_name');
     }
 
-    const pager = await pagerUtils.getPager(query, pageSize, pageNumber, req.originalUrl);
+    const pager = await pagerUtils.getPager(
+      query,
+      pageSize,
+      pageNumber,
+      req.originalUrl
+    );
     //debug(`pager = ${JSON.stringify(pager, null, 2)}`);
 
     const customers = await query

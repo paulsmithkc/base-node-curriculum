@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
         { value: 'Other', text: 'Other' },
       ],
     };
-    
+
     let query = db.getAllProducts();
     if (category) {
       query = query.where('category', category);
@@ -38,7 +38,12 @@ router.get('/', async (req, res, next) => {
       query = query.orderBy('name');
     }
 
-    const pager = await pagerUtils.getPager(query, pageSize, pageNumber, req.originalUrl);
+    const pager = await pagerUtils.getPager(
+      query,
+      pageSize,
+      pageNumber,
+      req.originalUrl
+    );
     //debug(`pager = ${JSON.stringify(pager, null, 2)}`);
 
     const products = await query
