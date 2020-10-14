@@ -25,10 +25,22 @@ router.get('/', async (req, res, next) => {
     }
     const products = await query;
 
+    const categoryOptionList = {
+      selected: category || '',
+      options: [
+        { value: '', text: 'All Categories' },
+        { value: 'Hats', text: 'Hats' },
+        { value: 'Buckles', text: 'Buckles' },
+        { value: 'Boots', text: 'Boots' },
+        { value: 'Other', text: 'Other' },
+      ],
+    };
+
     res.render('product/list', {
       title: 'Product List',
       products,
       category,
+      categoryOptionList,
       search,
     });
   } catch (err) {

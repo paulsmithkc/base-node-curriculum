@@ -36,26 +36,7 @@
           name="registered"
           class="custom-select w-auto"
         >
-          {{#if registered}}
-            <option value="{{registered}}" selected hidden>
-              {{registered}}
-            </option>
-          {{/if}}
-          <option value="">
-            All Customers
-          </option>
-          <option value="0">
-            Registered Today
-          </option>
-          <option value="-30">
-            Registered in the last 30 days
-          </option>
-          <option value="-90">
-            Registered in the last 90 days
-          </option>
-          <option value="-365">
-            Registered in the past year
-          </option>
+          {{> select-option-list registerOptionList}}
         </select>
       </div>
     </fieldset>

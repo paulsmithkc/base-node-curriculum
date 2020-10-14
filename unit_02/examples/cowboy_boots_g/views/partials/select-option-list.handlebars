@@ -1,0 +1,8 @@
+<option value="{{selected}}" hidden>
+  {{selected}}
+</option>
+{{#each options}}
+  <option value="{{value}}" {{tern (eq value ../selected) "selected" ""}}>
+    {{text}}
+  </option>
+{{/each}}

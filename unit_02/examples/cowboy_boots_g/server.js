@@ -22,6 +22,11 @@ app.engine(
       formatDate: (date) => (date ? moment(date).format('ll') : ''),
       formatDatetime: (date) => (date ? moment(date).format('lll') : ''),
       fromNow: (date) => (date ? moment(date).fromNow() : ''),
+      not: (value) => !value,
+      eq: (a, b) => a == b,
+      or: (a, b) => a || b,
+      and: (a, b) => a && b,
+      tern: (condition, a, b) => (condition ? a : b),
     },
   })
 );

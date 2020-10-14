@@ -32,30 +32,11 @@
           Recent Orders
         </label>
         <select
-          id="recent"
-          name="recent"
+          id="paid"
+          name="paid"
           class="custom-select w-auto"
         >
-          {{#if recent}}
-            <option value="{{recent}}" selected hidden>
-              {{recent}}
-            </option>
-          {{/if}}
-          <option value="">
-            All Orders
-          </option>
-          <option value="0">
-            Today
-          </option>
-          <option value="-30">
-            Last 30 days
-          </option>
-          <option value="-90">
-            Last 90 days
-          </option>
-          <option value="-365">
-            Past year
-          </option>
+          {{> select-option-list paidOptionList}}
         </select>
       </div>
     </fieldset>

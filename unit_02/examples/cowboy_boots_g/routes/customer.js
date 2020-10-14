@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 
     let query = db.getAllCustomersWithOrderCount();
     if (registered) {
-      const cutoff = moment().add(registered, 'days').toDate();
+      const cutoff = moment().startOf('day').add(registered, 'days').toDate();
       query = query.where('register_date', '>=', cutoff);
     }
     if (search) {
@@ -26,10 +26,22 @@ router.get('/', async (req, res, next) => {
     }
     const customers = await query;
 
+    const registerOptionList = {
+      selected: registered || '',
+      options: [
+        { value: '', text: 'All Customers' },
+        { value: '0', text: 'Registered Today' },
+        { value: '-30', text: 'Registered in the last 30 days' },
+        { value: '-90', text: 'Registered in the last 90 days' },
+        { value: '-365', text: 'Registered in the past year' },
+      ],
+    };
+
     res.render('customer/list', {
       title: 'Customer List',
       customers,
       registered,
+      registerOptionList,
       search,
     });
   } catch (err) {

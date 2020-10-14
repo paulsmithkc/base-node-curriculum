@@ -41,26 +41,7 @@
           name="category"
           class="custom-select w-auto"
         >
-          {{#if category}}
-            <option value="{{category}}" selected hidden>
-              {{category}}
-            </option>
-          {{/if}}
-          <option value="">
-            All Categories
-          </option>
-          <option value="Hats">
-            Hats
-          </option>
-          <option value="Buckles">
-            Buckles
-          </option>
-          <option value="Boots">
-            Boots
-          </option>
-          <option value="Other">
-            Other
-          </option>
+          {{> select-option-list categoryOptionList}}
         </select>
       </div>
     </fieldset>

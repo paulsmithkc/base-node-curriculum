@@ -9,12 +9,12 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const recent = req.query.recent;
+    const paid = req.query.paid;
     const search = req.query.search;
 
     let query = db.getAllOrdersWithItemCount();
-    if (recent) {
-      const cutoff = moment().add(recent, 'days').toDate();
+    if (paid) {
+      const cutoff = moment().startOf('day').add(paid, 'days').toDate();
       query = query.where('payment_date', '>=', cutoff);
     }
     if (search) {
@@ -27,7 +27,24 @@ router.get('/', async (req, res, next) => {
     }
     const orders = await query;
 
-    res.render('order/list', { title: 'Order List', orders, recent, search });
+    const paidOptionList = {
+      selected: paid || '',
+      options: [
+        { value: '', text: 'All Orders' },
+        { value: '0', text: 'Today' },
+        { value: '-30', text: 'Last 30 days' },
+        { value: '-90', text: 'Last 90 days' },
+        { value: '-365', text: 'Past year' },
+      ],
+    };
+
+    res.render('order/list', {
+      title: 'Order List',
+      orders,
+      paid,
+      paidOptionList,
+      search,
+    });
   } catch (err) {
     next(err);
   }
