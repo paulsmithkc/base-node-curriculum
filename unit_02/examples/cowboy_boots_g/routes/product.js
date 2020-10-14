@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../db');
+const pagerUtils = require('../pager-utils');
 //const debug = require('debug')('app:routes:product');
 
 // create and configure router
@@ -10,7 +11,20 @@ router.get('/', async (req, res, next) => {
   try {
     const category = req.query.category;
     const search = req.query.search;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const pageNumber = parseInt(req.query.page) || 1;
 
+    const categoryOptionList = {
+      selected: category || '',
+      options: [
+        { value: '', text: 'All Categories' },
+        { value: 'Hats', text: 'Hats' },
+        { value: 'Buckles', text: 'Buckles' },
+        { value: 'Boots', text: 'Boots' },
+        { value: 'Other', text: 'Other' },
+      ],
+    };
+    
     let query = db.getAllProducts();
     if (category) {
       query = query.where('category', category);
@@ -23,25 +37,21 @@ router.get('/', async (req, res, next) => {
     } else {
       query = query.orderBy('name');
     }
-    const products = await query;
 
-    const categoryOptionList = {
-      selected: category || '',
-      options: [
-        { value: '', text: 'All Categories' },
-        { value: 'Hats', text: 'Hats' },
-        { value: 'Buckles', text: 'Buckles' },
-        { value: 'Boots', text: 'Boots' },
-        { value: 'Other', text: 'Other' },
-      ],
-    };
+    const pager = await pagerUtils.getPager(query, pageSize, pageNumber, req.originalUrl);
+    //debug(`pager = ${JSON.stringify(pager, null, 2)}`);
+
+    const products = await query
+      .limit(pageSize)
+      .offset(pageSize * (pageNumber - 1));
 
     res.render('product/list', {
       title: 'Product List',
       products,
       category,
-      categoryOptionList,
       search,
+      categoryOptionList,
+      pager,
     });
   } catch (err) {
     next(err);
