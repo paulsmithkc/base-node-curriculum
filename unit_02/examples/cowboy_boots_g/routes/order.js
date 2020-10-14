@@ -39,8 +39,13 @@ router.get('/', async (req, res, next) => {
     } else {
       query = query.orderBy('id', 'desc');
     }
-    
-    const pager = await pagerUtils.getPager(query, pageSize, pageNumber, req.originalUrl);
+
+    const pager = await pagerUtils.getPager(
+      query,
+      pageSize,
+      pageNumber,
+      req.originalUrl
+    );
     //debug(`pager = ${JSON.stringify(pager, null, 2)}`);
 
     const orders = await query
@@ -68,7 +73,7 @@ router.get('/:id', async (req, res, next) => {
       const customer = await db.getCustomerById(order.customer_id);
       const items = await db.getOrderItems(orderId);
       const totalCost = _.sum(
-        items.map((x) => x.quantity * (x.price_paid || x.list_price))
+        _.map(items, (x) => x.quantity * (x.price_paid || x.list_price))
       );
       const title = `Order ${order.id}`;
       res.render('order/view', { title, customer, order, items, totalCost });
