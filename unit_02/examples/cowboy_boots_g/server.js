@@ -49,12 +49,13 @@ app.use('/', express.static('public'));
 
 // 404 error page
 app.use((req, res) => {
+  debug(`${req.method} ${req.originalUrl} not found.`);
   if (req.xhr || !req.accepts('html')) {
     res.status(404).json({ error: 'Page Not Found' });
   } else {
     res.status(404).render('error/basic', {
       title: 'Page Not Found',
-      message: 'The page you requested could not be found.',
+      message: 'We could not find the page you requested.',
     });
   }
 });
