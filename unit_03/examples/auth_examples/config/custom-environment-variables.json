@@ -1,0 +1,15 @@
+{
+  "debug": "DEBUG",
+  "http": {
+    "hostname": "HOSTNAME",
+    "port": "PORT"
+  },
+  "db": {
+    "database": "DB_NAME",
+    "host": "DB_HOST",
+    "port": "DB_PORT",
+    "user": "DB_USER",
+    "password": "DB_PASS",
+    "connectionLimit": "DB_POOL"
+  }
+}

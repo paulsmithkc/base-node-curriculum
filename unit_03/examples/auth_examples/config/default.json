@@ -1,0 +1,14 @@
+{
+  "http": {
+    "hostname": "localhost",
+    "port": 3000
+  },
+  "db": {
+    "database": "example_auth",
+    "host": "localhost",
+    "port": 3306,
+    "user": "admin",
+    "password": "password",
+    "connectionLimit": 10
+  }
+}
