@@ -7,7 +7,9 @@ create table `users` (
   `username` varchar(100) not null,
   `email` varchar(100) not null,
   `password_hash` varchar(64) not null,
-  primary key (`id`)
+  primary key (`id`),
+  unique (`username`),
+  unique (`email`)
 );
 
 insert into users (id, username, email, password_hash) values (1, 'nhuthart0', 'slethardy0@com.com', 'Q1CbfFUD');
