@@ -12,7 +12,7 @@ create table `users` (
   unique (`email`)
 );
 
-insert into users (id, username, email, password_hash) values (1, 'admin', 'admin@example.com', 'password');
+insert into users (id, username, email, password_hash) values (1, 'admin', 'admin@example.com', '$2b$10$DlK0HorlZ0XtdAux86ASO.XbW2NPM8w.4GpLpZ6z9vksVNGSAB0h6');
 insert into users (id, username, email, password_hash) values (2, 'cteresse1', 'ugoodhew1@hatena.ne.jp', 'LhLZO7');
 insert into users (id, username, email, password_hash) values (3, 'rhobgen2', 'lbunstone2@independent.co.uk', 'Oo5dA6AzyG');
 insert into users (id, username, email, password_hash) values (4, 'croath3', 'cwaslin3@twitpic.com', 'pSrOSyNmIy');

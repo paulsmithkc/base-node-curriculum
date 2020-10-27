@@ -32,8 +32,8 @@ router.post('/login', async (req, res, next) => {
       if (!user) {
         user = await db.getUserByEmail(username);
       }
-      if (!user || user.password_hash != password) {
-      //if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+      //if (!user || user.password_hash != password) {
+      if (!user || !(await bcrypt.compare(password, user.password_hash))) {
         error = 'credentials invalid.';
       } else {
         error = null;
@@ -61,12 +61,13 @@ router.post('/login', async (req, res, next) => {
     next(err);
   }
 });
-router.get('/me', authMiddleware, (req, res) =>
-  res.render('account/profile', { title: 'Profile', user: req.user })
-);
+router.get('/me', authMiddleware, (req, res) => {
+  const user = req.user;
+  res.render('account/profile', { title: 'Profile', user: user });
+});
 router.get('/logout', (req, res) => {
   res.clearCookie('auth_token');
-  res.redirect('/account/login')
+  res.redirect('/account/login');
 });
 
 // export router
