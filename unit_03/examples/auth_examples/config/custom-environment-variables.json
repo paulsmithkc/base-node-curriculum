@@ -11,5 +11,9 @@
     "user": "DB_USER",
     "password": "DB_PASS",
     "connectionLimit": "DB_POOL"
+  },
+  "auth": {
+    "saltRounds": "AUTH_SALT_ROUNDS",
+    "secret": "AUTH_SECRET"
   }
 }

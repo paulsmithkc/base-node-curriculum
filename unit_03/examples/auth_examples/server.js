@@ -7,12 +7,14 @@ const express = require('express');
 const hbs = require('express-handlebars');
 const config = require('config');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 // create and configure application
 const app = express();
 app.engine('handlebars', hbs());
 app.set('view engine', 'handlebars');
-app.use(morgan('tiny'));
+//app.use(morgan('tiny'));
+app.use(cookieParser());
 
 // routes
 app.get('/', (req, res) => res.render('home'));

@@ -10,5 +10,9 @@
     "user": "admin",
     "password": "password",
     "connectionLimit": 10
+  },
+  "auth": {
+    "saltRounds": 10,
+    "secret": "mySecret"
   }
 }
