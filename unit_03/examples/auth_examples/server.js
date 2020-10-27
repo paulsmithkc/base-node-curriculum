@@ -16,10 +16,10 @@ app.use(morgan('tiny'));
 
 // routes
 app.get('/', (req, res) => res.render('home'));
-app.get('/account', require('./routes/account'));
+app.use('/account', require('./routes/account'));
 
 // static files
-app.use('/', express.static('public'));
+app.use(express.static('public'));
 
 // 404 error page
 app.use(require('./middleware/error404'));
