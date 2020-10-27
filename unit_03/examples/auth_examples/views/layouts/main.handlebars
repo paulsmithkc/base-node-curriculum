@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    Auth Example {{#if title}} - {{title}}{{/if}}
+  </title>
+  {{!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> --}}
+  <link rel="stylesheet" href="/css/themes/lux/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/main.css" />
+  <script defer src="/js/jquery.js"></script>
+  <script defer src="/js/bootstrap.min.js"></script>
+  <script defer src="/js/main.js"></script>
+</head>
+
+<body>
+  <header class="navbar navbar-light bg-light navbar-expand">
+    <a class="navbar-brand" href="/">Auth Example</a>
+     <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/account/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/account/me">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/account/logout">Logout</a>
+      </li>
+    </ul>
+  </header>
+
+  {{{body}}}
+
+</body>
+
+</html>
