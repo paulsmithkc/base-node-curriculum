@@ -2,6 +2,7 @@ const express = require('express');
 const config = require('config');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 const db = require('../db');
 const authMiddleware = require('../middleware/auth');
 const debug = require('debug')('app:routes:account');
@@ -55,7 +56,11 @@ router.post('/login', async (req, res, next) => {
       const secret = config.get('auth.secret');
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });
       res.cookie('auth_token', token, { maxAge: 60 * 60 * 1000 });
+      // const expires = config.get('auth.expires');
+      // const token = jwt.sign(payload, secret, { expiresIn: expires + 'ms' });
+      // res.cookie('auth_token', token, { maxAge: expires });
       res.redirect('/account/me');
+      await db.updateLastLogin(user.id);
     }
   } catch (err) {
     next(err);

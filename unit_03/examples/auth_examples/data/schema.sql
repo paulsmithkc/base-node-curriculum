@@ -7,6 +7,7 @@ create table `users` (
   `username` varchar(100) not null,
   `email` varchar(100) not null,
   `password_hash` varchar(64) not null,
+  `lastLogin` datetime null,
   primary key (`id`),
   unique (`username`),
   unique (`email`)

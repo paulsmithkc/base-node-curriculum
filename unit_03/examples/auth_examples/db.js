@@ -1,4 +1,5 @@
 const debug = require('debug')('app:db');
+const moment = require('moment');
 
 // get connection config
 const config = require('config');
@@ -28,10 +29,15 @@ const getUserByEmail = (email) => {
   return knex('users').select('*').where('email', email).first();
 };
 
+const updateLastLogin = (userId) => {
+  return knex('users').update('lastLogin', moment().format('YYYY-MM-DD HH:mm:ss')).where('id', userId);
+}
+
 module.exports = {
   knex,
   getAllUsers,
   getUserById,
   getUserByName,
   getUserByEmail,
+  updateLastLogin,
 };
