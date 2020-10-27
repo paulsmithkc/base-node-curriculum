@@ -8,8 +8,8 @@ module.exports = (req, res, next) => {
     if (!token) { throw Error('missing token'); }
     const secret = config.get('auth.secret');
     const payload = jwt.verify(token, secret);
-    req.user = payload;
     debug(payload);
+    req.user = payload;
     next();
   } catch (err) {
     debug(err.message);
