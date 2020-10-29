@@ -1,16 +1,16 @@
 ## Unit 04
 ### Topics Covered
-* Authentication (https://searchsecurity.techtarget.com/definition/authentication)
-* Authorization (https://searchsoftwarequality.techtarget.com/definition/authorization)
-* Encryption (https://searchsecurity.techtarget.com/definition/encryption)
-* Hashing (https://searchsqlserver.techtarget.com/definition/hashing)
+* NoSQL Databases (https://www.mongodb.com/nosql-explained)
+* MongoDB Server (https://docs.mongodb.com/manual/)
+* MongoDB Driver (https://www.npmjs.com/package/mongodb)
+* Embedded Documents (https://docs.mongodb.com/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/)
+* Indexes (https://docs.mongodb.com/manual/indexes/index.html)
+* Domain-Driven Design
 
-* Web Security (https://developer.mozilla.org/en-US/docs/Web/Security)
-* HTTPS, TLS, and SSL (https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security)
-* HTTP Cookies (https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
-
-* JSON Web Tokens (JWT) (https://jwt.io/)
-* Express.js Middleware (https://expressjs.com/en/guide/using-middleware.html)
-* bcrypt (https://www.npmjs.com/package/bcrypt)
-* jsonwebtoken (https://www.npmjs.com/package/jsonwebtoken)
-* sendgrid (https://www.npmjs.com/package/@sendgrid/mail)
+### Installing MongoDB Server & Compass
+1. Download MongoDB Community Server from
+https://www.mongodb.com/download-center/community
+2. Install with default settings
+3. Download MongoDB Compass from
+https://www.mongodb.com/products/compass
+4. Install with default settings
