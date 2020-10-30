@@ -9,6 +9,7 @@
     "port": 3306,
     "user": "admin",
     "password": "password",
-    "connectionLimit": 10
+    "connectionLimit": 10,
+    "charset": "utf8mb4"
   }
 }

@@ -10,7 +10,8 @@
     "port": "DB_PORT",
     "user": "DB_USER",
     "password": "DB_PASS",
-    "connectionLimit": "DB_POOL"
+    "connectionLimit": "DB_POOL",
+    "charset": "DB_CHARSET"
   },
   "auth": {
     "saltRounds": "AUTH_SALT_ROUNDS",
