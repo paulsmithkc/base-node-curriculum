@@ -4,7 +4,13 @@ const debug = require('debug')('app:auth');
 
 module.exports = (req, res, next) => {
   try {
-    const token = req.cookies.auth_token;
+    let token = req.cookies.auth_token;
+    if (!token) {
+      const authHeader = req.get('Authorization').split(' ');
+      if (authHeader.length == 2 && authHeader[0] == 'Bearer') {
+        token = authHeader[1];
+      }
+    }
     if (!token) { throw Error('missing token'); }
     const secret = config.get('auth.secret');
     if (!secret) { throw Error('secret not configured'); }
