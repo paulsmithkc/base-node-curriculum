@@ -1,8 +1,14 @@
 <main class="container mt-5">
   <h1>
-    {{user.username}}
+    <span>{{user.username}}</span>
+    {{#if user.is_admin}}
+      <span class="badge badge-primary badge-small ml-3">Admin</span>
+    {{/if}}
+    {{#if user.is_moderator}}
+      <span class="badge badge-primary badge-small ml-3">Moderator</span>
+    {{/if}}
   </h1>
-  <p class="text-monospace">
+  <p class="text-monospace text-muted">
     {{user.email}}
   </p>
   <p>

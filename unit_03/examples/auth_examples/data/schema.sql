@@ -7,15 +7,17 @@ create table `users` (
   `username` varchar(100) not null,
   `email` varchar(100) not null,
   `password_hash` varchar(64) not null,
+  `is_admin` boolean not null default(0),
+  `is_moderator` boolean not null default(0),
   `lastLogin` datetime null,
   primary key (`id`),
   unique (`username`),
   unique (`email`)
 );
 
-insert into users (id, username, email, password_hash) values (1, 'admin', 'admin@example.com', '$2b$10$DlK0HorlZ0XtdAux86ASO.XbW2NPM8w.4GpLpZ6z9vksVNGSAB0h6');
-insert into users (id, username, email, password_hash) values (2, 'cteresse1', 'ugoodhew1@hatena.ne.jp', 'LhLZO7');
-insert into users (id, username, email, password_hash) values (3, 'rhobgen2', 'lbunstone2@independent.co.uk', 'Oo5dA6AzyG');
+insert into users (id, username, email, password_hash, is_admin) values (1, 'paul.smith', 'admin@example.com', '$2b$10$DlK0HorlZ0XtdAux86ASO.XbW2NPM8w.4GpLpZ6z9vksVNGSAB0h6', 1);
+insert into users (id, username, email, password_hash, is_moderator) values (2, 'john.doe', 'mod@example.com', '$2b$10$DlK0HorlZ0XtdAux86ASO.XbW2NPM8w.4GpLpZ6z9vksVNGSAB0h6', 1);
+insert into users (id, username, email, password_hash) values (3, 'jane.doe', 'user@example.com', '$2b$10$DlK0HorlZ0XtdAux86ASO.XbW2NPM8w.4GpLpZ6z9vksVNGSAB0h6');
 insert into users (id, username, email, password_hash) values (4, 'croath3', 'cwaslin3@twitpic.com', 'pSrOSyNmIy');
 insert into users (id, username, email, password_hash) values (5, 'glangabeer4', 'hpye4@spiegel.de', 'qq5VEhpNT');
 insert into users (id, username, email, password_hash) values (6, 'kadamthwaite5', 'mfarrow5@arstechnica.com', 'PWk4aWsxqyRW');

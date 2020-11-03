@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const db = require('../db');
-const authMiddleware = require('../middleware/auth');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 const debug = require('debug')('app:routes:account');
 
 // create and configure router
@@ -52,6 +53,8 @@ router.post('/login', async (req, res, next) => {
         id: user.id,
         username: user.username,
         email: user.email,
+        is_admin: user.is_admin,
+        is_moderator: user.is_moderator,
       };
       const secret = config.get('auth.secret');
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });
@@ -66,13 +69,34 @@ router.post('/login', async (req, res, next) => {
     next(err);
   }
 });
-router.get('/me', authMiddleware, (req, res) => {
-  const user = req.user;
-  res.render('account/profile', { title: 'Profile', user: user });
+router.get('/me', auth, (req, res) => {
+  const auth = req.auth;
+  res.render('account/profile', { title: 'Profile', user: auth });
 });
 router.get('/logout', (req, res) => {
   res.clearCookie('auth_token');
   res.redirect('/account/login');
+});
+router.get('/admin', auth, admin,  async (req, res, next) => {
+  try {
+    const users = await db.getAllUsers();
+    res.render('account/admin', { title: 'Profile', users });
+  } catch (err) {
+    next(err);
+  }
+});
+router.get('/:id', auth, admin,  async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const user = await db.getUserById(id);
+    if (user) {
+      res.render('account/profile', { title: 'Profile', user });
+    } else {
+      next();
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 // export router

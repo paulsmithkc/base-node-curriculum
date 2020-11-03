@@ -1,0 +1,31 @@
+<main class="container mt-5">
+  <h1>
+    Admin
+  </h1>
+  <div>
+    {{#each users}}
+      <div class="card mb-2">
+        <div class="card-body">
+          <div>
+            <a href="/account/{{id}}">
+              {{id}}: {{username}}
+            </a>
+            {{#if is_admin}}
+              <span class="badge badge-primary badge-small ml-2">
+                Admin
+              </span>
+            {{/if}}
+            {{#if is_moderator}}
+              <span class="badge badge-primary badge-small ml-2">
+                Moderator
+              </span>
+            {{/if}}
+          </div>
+          <div class="text-monospace text-muted">
+            {{email}}
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</main>
