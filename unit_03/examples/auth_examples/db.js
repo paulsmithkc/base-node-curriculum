@@ -41,6 +41,12 @@ const updateEmailVerified = (userId, verified) => {
     .where('id', userId);
 };
 
+const updatePasswordHash = (userId, passwordHash) => {
+  return knex('users')
+    .update('password_hash', passwordHash)
+    .where('id', userId);
+};
+
 module.exports = {
   knex,
   getAllUsers,
@@ -49,4 +55,5 @@ module.exports = {
   getUserByEmail,
   updateLastLogin,
   updateEmailVerified,
+  updatePasswordHash,
 };

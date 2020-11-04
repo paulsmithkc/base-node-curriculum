@@ -103,7 +103,7 @@ router.get('/verify_email/:token', async (req, res, next) => {
     const payload = jwt.verify(token, secret);
     debug('verify email', payload);
     if (payload.type != 'verify_email') {
-      throw new Error('invalid token');
+      throw new Error('invalid token type');
     }
     await db.updateEmailVerified(payload.id, true);
     res.render('account/verify_email', {
@@ -111,6 +111,87 @@ router.get('/verify_email/:token', async (req, res, next) => {
       verified: true,
       tokenPayload: payload,
       auth: req.auth,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+router.get('/reset_password/', (req, res) => {
+  return res.render('account/reset_password', { title: 'Reset Password' });
+});
+router.post('/reset_password/', async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    if (!email) {
+      return res.status(400).render('account/reset_password', {
+        title: 'Reset Password',
+        error: 'Email is required!',
+      });
+    }
+
+    debug(`reset password "${email}"`);
+    const user = await db.getUserByEmail(email);
+    if (user) {
+      await sendgrid.sendResetPassword(user);
+    }
+
+    res.render('account/reset_password', {
+      title: 'Reset Password',
+      emailSent: true,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+router.get('/reset_password/:token', async (req, res, next) => {
+  try {
+    const token = req.params.token;
+    const secret = config.get('sendgrid.secret');
+    const payload = jwt.verify(token, secret);
+    debug('reset password', payload);
+    if (payload.type != 'reset_password') {
+      throw new Error('invalid token type');
+    }
+    res.render('account/reset_password', {
+      title: 'Reset Password',
+      emailReceived: true,
+      tokenPayload: payload,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+router.post('/reset_password/:token', async (req, res, next) => {
+  try {
+    const token = req.params.token;
+    const secret = config.get('sendgrid.secret');
+    const payload = jwt.verify(token, secret);
+    debug('reset password', payload);
+    if (payload.type != 'reset_password') {
+      throw new Error('invalid token type');
+    }
+
+    const newPassword = req.body.new_password;
+    const confirmPassword = req.body.confirm_password;
+    if (!newPassword || !confirmPassword || newPassword != confirmPassword) {
+      return res.status(400).render('account/reset_password', {
+        title: 'Reset Password',
+        emailReceived: true,
+        tokenPayload: payload,
+        error: 'Passwords must match!',
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      config.get('auth.saltRounds')
+    );
+    await db.updatePasswordHash(payload.id, hashedPassword);
+
+    res.render('account/reset_password', {
+      title: 'Reset Password',
+      passwordChanged: true,
+      tokenPayload: payload,
     });
   } catch (err) {
     next(err);
