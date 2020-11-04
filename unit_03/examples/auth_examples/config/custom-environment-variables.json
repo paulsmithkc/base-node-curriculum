@@ -17,5 +17,15 @@
     "saltRounds": "AUTH_SALT_ROUNDS",
     "secret": "AUTH_SECRET",
     "expires": "AUTH_EXPIRES"
+  },
+  "sendgrid": {
+    "apiKey": "SENDGRID_API_KEY_PERSONAL",
+    "from": "SENDGRID_FROM",
+    "to": "SENDGRID_TO",
+    "secret": "SENDGRID_SECRET",
+    "templates": {
+      "verifyEmail": "SENDGRID_TEMPLATE_VERIFY_EMAIL",
+      "resetPassword": "SENDGRID_TEMPLATE_RESET_PASSWORD"
+    }
   }
 }

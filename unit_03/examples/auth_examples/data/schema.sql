@@ -9,6 +9,7 @@ create table `users` (
   `password_hash` varchar(64) not null,
   `is_admin` boolean not null default(0),
   `is_moderator` boolean not null default(0),
+  `is_email_verified` boolean not null default(0),
   `lastLogin` datetime null,
   primary key (`id`),
   unique (`username`),
@@ -115,3 +116,6 @@ insert into users (id, username, email, password_hash) values (97, 'esmallcombe2
 insert into users (id, username, email, password_hash) values (98, 'ldeverell2p', 'gtomney2p@bandcamp.com', 'TTQt8Iia');
 insert into users (id, username, email, password_hash) values (99, 'tpearman2q', 'hvatcher2q@xing.com', 'k0khvgJGfGL5');
 insert into users (id, username, email, password_hash) values (100, 'wburgin2r', 'ismedmoor2r@tinyurl.com', 'O2ZlzM');
+
+select * from users;
+

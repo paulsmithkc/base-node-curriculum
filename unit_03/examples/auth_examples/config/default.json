@@ -16,5 +16,15 @@
     "saltRounds": 10,
     "secret": "",
     "expires": 3600000
+  },
+  "sendgrid": {
+    "apiKey": "",
+    "from": "",
+    "to": "",
+    "secret": "",
+    "templates": {
+      "verifyEmail": "d-8df2734e7f284b6891e8ab59982dbd0e",
+      "resetPassword": "d-88cf07c05b604a6cb71d8a218c6df8a5"
+    }
   }
 }

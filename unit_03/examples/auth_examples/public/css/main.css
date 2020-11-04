@@ -1,0 +1,7 @@
+a {
+  color: var(--info);
+}
+a:hover,
+a:focus {
+  color: var(--info);
+}

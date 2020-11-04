@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const db = require('../db');
+const sendgrid = require('../sendgrid');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const debug = require('debug')('app:routes:account');
@@ -55,6 +56,8 @@ router.post('/login', async (req, res, next) => {
         email: user.email,
         is_admin: user.is_admin,
         is_moderator: user.is_moderator,
+        is_email_verified: user.is_email_verified,
+        type: 'login',
       };
       const secret = config.get('auth.secret');
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });
@@ -62,35 +65,72 @@ router.post('/login', async (req, res, next) => {
       // const expires = config.get('auth.expires');
       // const token = jwt.sign(payload, secret, { expiresIn: expires + 'ms' });
       // res.cookie('auth_token', token, { maxAge: expires });
-      res.redirect('/account/me');
+      res.redirect('/account/profile/me');
       await db.updateLastLogin(user.id);
     }
   } catch (err) {
     next(err);
   }
 });
-router.get('/me', auth, (req, res) => {
-  const auth = req.auth;
-  res.render('account/profile', { title: 'Profile', user: auth });
-});
 router.get('/logout', (req, res) => {
   res.clearCookie('auth_token');
   res.redirect('/account/login');
 });
-router.get('/admin', auth, admin,  async (req, res, next) => {
+router.get('/admin', auth, admin, async (req, res, next) => {
   try {
     const users = await db.getAllUsers();
-    res.render('account/admin', { title: 'Profile', users });
+    res.render('account/admin', { title: 'Profile', users, auth: req.auth });
   } catch (err) {
     next(err);
   }
 });
-router.get('/:id', auth, admin,  async (req, res, next) => {
+router.get('/verify_email/', auth, async (req, res, next) => {
+  try {
+    await sendgrid.sendVerifyEmail(req.auth);
+    res.render('account/verify_email', {
+      title: 'Verify Email',
+      verified: false,
+      auth: req.auth,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+router.get('/verify_email/:token', async (req, res, next) => {
+  try {
+    const token = req.params.token;
+    const secret = config.get('sendgrid.secret');
+    const payload = jwt.verify(token, secret);
+    debug('verify email', payload);
+    if (payload.type != 'verify_email') {
+      throw new Error('invalid token');
+    }
+    await db.updateEmailVerified(payload.id, true);
+    res.render('account/verify_email', {
+      title: 'Email Verified',
+      verified: true,
+      tokenPayload: payload,
+      auth: req.auth,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+router.get('/profile/me', auth, (req, res) => {
+  const auth = req.auth;
+  res.render('account/profile', {
+    title: 'Profile',
+    user: auth,
+    auth: auth,
+    showVerifyEmail: true, // !auth.is_email_verified,
+  });
+});
+router.get('/profile/:id', auth, admin, async (req, res, next) => {
   try {
     const id = req.params.id;
     const user = await db.getUserById(id);
     if (user) {
-      res.render('account/profile', { title: 'Profile', user });
+      res.render('account/profile', { title: 'Profile', user, auth: req.auth });
     } else {
       next();
     }

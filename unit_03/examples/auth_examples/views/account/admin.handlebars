@@ -7,17 +7,26 @@
       <div class="card mb-2">
         <div class="card-body">
           <div>
-            <a href="/account/{{id}}">
-              {{id}}: {{username}}
+            <a href="/account/profile/{{id}}" class="card-title" style="font-size: 2em">
+              {{~username~}}
             </a>
             {{#if is_admin}}
-              <span class="badge badge-primary badge-small ml-2">
+              <span class="badge badge-primary ml-2">
                 Admin
               </span>
             {{/if}}
             {{#if is_moderator}}
-              <span class="badge badge-primary badge-small ml-2">
+              <span class="badge badge-primary ml-2">
                 Moderator
+              </span>
+            {{/if}}
+            {{#if is_email_verified}}
+              <span class="badge badge-success ml-2">
+                Verified
+              </span>
+            {{else}}
+              <span class="badge badge-danger ml-2">
+                Unverified
               </span>
             {{/if}}
           </div>

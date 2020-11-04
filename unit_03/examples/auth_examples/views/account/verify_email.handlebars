@@ -1,0 +1,17 @@
+<main class="container mt-5">
+  {{#if verified}}
+    <h1 class="text-danger">
+      Email Verified!
+    </h1>
+    <div>
+      {{tokenPayload.email}} email address verified!
+    </div>
+  {{else}}
+    <h1>
+      Verify Email
+    </h1>
+    <div>
+      Confirmation email sent. Please check your inbox.
+    </div>
+  {{/if}}
+</main>

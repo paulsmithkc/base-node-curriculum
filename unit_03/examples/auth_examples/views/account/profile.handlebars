@@ -1,17 +1,42 @@
 <main class="container mt-5">
   <h1>
-    <span>{{user.username}}</span>
+    <span>
+      {{user.username}}
+    </span>
     {{#if user.is_admin}}
-      <span class="badge badge-primary badge-small ml-3">Admin</span>
+      <span class="badge badge-primary ml-2">
+        Admin
+      </span>
     {{/if}}
     {{#if user.is_moderator}}
-      <span class="badge badge-primary badge-small ml-3">Moderator</span>
+      <span class="badge badge-primary ml-2">
+        Moderator
+      </span>
+    {{/if}}
+    {{#if user.is_email_verified}}
+      <span class="badge badge-success ml-2">
+        Verified
+      </span>
+    {{else}}
+      <span class="badge badge-danger ml-2">
+        Unverified
+      </span>
     {{/if}}
   </h1>
   <p class="text-monospace text-muted">
     {{user.email}}
   </p>
+  {{#if showVerifyEmail}}
+    <p>
+      <a href="/account/verify_email">
+        Verify Email Address
+      </a>
+    </p>
+  {{/if}}
   <p>
-    This is my profile.
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+    Saepe, accusamus vel magni sunt quibusdam eaque, 
+    quod eveniet nemo ducimus culpa animi quae laborum nihil suscipit. 
+    Consectetur sit suscipit est dolor.
   </p>
 </main>

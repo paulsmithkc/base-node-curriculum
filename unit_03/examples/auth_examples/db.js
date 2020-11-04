@@ -30,8 +30,16 @@ const getUserByEmail = (email) => {
 };
 
 const updateLastLogin = (userId) => {
-  return knex('users').update('lastLogin', moment().format('YYYY-MM-DD HH:mm:ss')).where('id', userId);
-}
+  return knex('users')
+    .update('lastLogin', moment().format('YYYY-MM-DD HH:mm:ss'))
+    .where('id', userId);
+};
+
+const updateEmailVerified = (userId, verified) => {
+  return knex('users')
+    .update('is_email_verified', verified)
+    .where('id', userId);
+};
 
 module.exports = {
   knex,
@@ -40,4 +48,5 @@ module.exports = {
   getUserByName,
   getUserByEmail,
   updateLastLogin,
+  updateEmailVerified,
 };

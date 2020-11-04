@@ -1,6 +1,10 @@
 {
   "auth": {
-    "saltRounds": 10,
-    "secret": "mySecret"
+    "secret": "authSecret"
+  },
+  "sendgrid": {
+    "from": "prsmith@ranken.edu",
+    "to": "prsmith@ranken.edu",
+    "secret": "emailSecret"
   }
 }
