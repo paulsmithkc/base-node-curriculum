@@ -24,6 +24,23 @@ const sendEmail = async (to, subject, text, html, trackingEnabled = false) => {
   debug(`${msg.subject} sent to ${msg.to}: ${result}`);
 };
 
+const sendEmailTemplate = async (to, templateId, data, trackingEnabled = false) => {
+  const msg = {
+    from: config.get('sendgrid.from'),
+    to: config.get('sendgrid.to') || to,
+    templateId: templateId,
+    dynamicTemplateData: data,
+    trackingSettings: {
+      clickTracking: { enable: trackingEnabled },
+      openTracking: { enable: trackingEnabled },
+      subscriptionTracking: { enable: trackingEnabled },
+    },
+  };
+  const result = await sgMail.send(msg);
+  debug(`${msg.subject} sent to ${msg.to}: ${result}`);
+}
+
+
 const sendVerifyEmail = async (user) => {
   const payload = {
     id: user.id,
@@ -78,6 +95,7 @@ const sendResetPassword = async (user) => {
 
 module.exports = {
   sendEmail,
+  sendEmailTemplate,
   sendVerifyEmail,
   sendResetPassword,
 };
