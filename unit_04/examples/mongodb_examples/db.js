@@ -63,14 +63,26 @@ const updateProduct = async (product) => {
   );
 };
 
+const doPriceCut = async () => {
+  const database = await connect();
+  await database.collection('product').updateMany(
+    { isOnSale: false, price: { $gt: 5 } },
+    { $set: { isOnSale: true }, $mul: { price: 0.7 } }
+  );
+};
+
 const deleteProductById = async (id) => {
   const database = await connect();
-  await database.collection('products').deleteOne({ _id: new ObjectID(id) });
+  await database.collection('products').deleteOne(
+    { _id: new ObjectID(id) }
+  );
 };
 
 const deleteOutOfStock = async () => {
   const database = await connect();
-  await database.collection('products').deleteMany({ quantity: 0 });
+  await database.collection('products').deleteMany(
+    { quantity: 0 }
+  );
 };
 
 module.exports = {
@@ -82,6 +94,7 @@ module.exports = {
   insertProduct,
   insertProducts,
   updateProduct,
+  doPriceCut,
   deleteProductById,
   deleteOutOfStock,
 };
