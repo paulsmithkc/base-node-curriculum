@@ -79,7 +79,7 @@ router.post('/:id', async (req, res, next) => {
     await db.updateProduct(product);
     res.json({ product: product, message: 'Product Updated.' });
   } catch (err) {
-    next(err, res);
+    next(err);
   }
 });
 
