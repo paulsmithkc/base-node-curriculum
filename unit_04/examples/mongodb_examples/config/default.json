@@ -5,7 +5,7 @@
   },
   "db": {
     "url": "mongodb://localhost:27017",
-    "name": "mongodb_examples",
+    "name": "cowboy_boots",
     "poolSize": 5
   }
 }

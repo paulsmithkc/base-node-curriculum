@@ -27,6 +27,11 @@ const getProductsByCategory = async (category) => {
   return database.collection('products').find({ category: category }).toArray();
 };
 
+const getProductByName = async (name) => {
+  const database = await connect();
+  return database.collection('products').findOne({ name: name });
+};
+
 const getProductById = async (id) => {
   const database = await connect();
   return database.collection('products').findOne({
@@ -34,47 +39,46 @@ const getProductById = async (id) => {
   });
 };
 
-const getProductByName = async (name) => {
-  const database = await connect();
-  return database.collection('products').findOne({ name: name });
-};
-
 const insertProduct = async (product) => {
   const database = await connect();
-  await database.collection('product').insertOne(product);
+  await database.collection('products').insertOne(product);
 };
 
 const insertProducts = async (products) => {
   const database = await connect();
-  await database.collection('product').insertMany(products);
+  await database.collection('products').insertMany(products);
 };
 
 const updateProduct = async (product) => {
   const database = await connect();
-  await database
-    .collection('product')
-    .updateOne(
-      { _id: new ObjectID(product._id) },
-      { $set: { name: product.name, price: product.price } }
-    );
+  await database.collection('products').updateOne(
+    { _id: new ObjectID(product._id) },
+    {
+      $set: {
+        name: product.name,
+        category: product.category,
+        price: product.price,
+      },
+    }
+  );
 };
 
 const deleteProductById = async () => {
   const database = await connect();
-  await database.collection('product').deleteOne({ _id: new ObjectID(id) });
+  await database.collection('products').deleteOne({ _id: new ObjectID(id) });
 };
 
 const deleteOutOfStock = async () => {
   const database = await connect();
-  await database.collection('product').deleteMany({ quantity: 0 });
+  await database.collection('products').deleteMany({ quantity: 0 });
 };
 
 module.exports = {
   connect,
   getAllProducts,
   getProductsByCategory,
-  getProductById,
   getProductByName,
+  getProductById,
   insertProduct,
   insertProducts,
   updateProduct,

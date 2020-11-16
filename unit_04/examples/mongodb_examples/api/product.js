@@ -64,29 +64,30 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/:id', async (req, res, next) => {
-  debug('update product');
   try {
     const schema = Joi.object({
-      _id: Joi.string().required(),
+      _id: Joi.objectId().required(),
       name: Joi.string().required().min(3).max(100).trim(),
       category: Joi.string().required().min(3).max(7).trim(),
       price: Joi.number().required().min(0).max(9999.99).precision(2),
     });
     let product = req.body;
-    product.id = req.params.id;
+    product._id = req.params.id;
     product = await schema.validateAsync(product, { abortEarly: false });
+    debug('update product');
+    debug(product);
     await db.updateProduct(product);
     res.json({ product: product, message: 'Product Updated.' });
   } catch (err) {
-    sendError(err, res);
+    next(err, res);
   }
 });
 
 router.delete('/:id', async (req, res, next) => {
-  debug('delete product');
   try {
-    const schema = Joi.string().required();
+    const schema = Joi.objectId().required();
     const id = await schema.validateAsync(req.params.id);
+    debug(`delete product id=${id}`);
     await db.deleteProduct(id);
     res.json({ id: id, message: 'Product Deleted.' });
   } catch (err) {

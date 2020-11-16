@@ -9,6 +9,10 @@ const config = require('config');
 const moment = require('moment');
 const morgan = require('morgan');
 
+// install ObjectId validator
+const Joi = require('joi')
+Joi.objectId = require('joi-objectid')(Joi);
+
 // create and configure application
 const app = express();
 app.engine(
