@@ -11,8 +11,9 @@ const connect = async () => {
     const poolSize = config.get('db.poolSize');
     const client = await MongoClient.connect(dbUrl, {
       useUnifiedTopology: true,
+      poolSize: poolSize,
     });
-    _database = client.db(dbName, { poolSize });
+    _database = client.db(dbName);
   }
   return _database;
 };
