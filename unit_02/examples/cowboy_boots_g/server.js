@@ -68,7 +68,7 @@ app.use((err, req, res, next) => {
     ? err.details.map((x) => x.message + '.').join('\n')
     : err.message;
 
-  if (req.xhr || !req.accepts('html')) {
+  if (req.xhr || !req.accepts('html') || req.path.startsWith('/api/')) {
     res.status(500).json({ error: message });
   } else {
     res.status(500).render('error/basic', { title: 'Error', message });
