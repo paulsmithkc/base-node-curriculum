@@ -63,7 +63,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.post('/:id', async (req, res, next) => {
   try {
     const schema = Joi.object({
       _id: Joi.objectId().required(),
@@ -88,7 +88,7 @@ router.delete('/:id', async (req, res, next) => {
     const schema = Joi.objectId().required();
     const id = await schema.validateAsync(req.params.id);
     debug(`delete product id=${id}`);
-    await db.deleteProduct(id);
+    await db.deleteProductById(id);
     res.json({ id: id, message: 'Product Deleted.' });
   } catch (err) {
     next(err);

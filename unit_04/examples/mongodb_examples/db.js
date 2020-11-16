@@ -63,7 +63,7 @@ const updateProduct = async (product) => {
   );
 };
 
-const deleteProductById = async () => {
+const deleteProductById = async (id) => {
   const database = await connect();
   await database.collection('products').deleteOne({ _id: new ObjectID(id) });
 };
