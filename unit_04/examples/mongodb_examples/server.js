@@ -38,6 +38,7 @@ app.use(morgan('tiny'));
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.use('/api/product', require('./api/product'));
+app.use('/api/cart', require('./api/cart'));
 
 // static files
 app.use('/', express.static('public'));
