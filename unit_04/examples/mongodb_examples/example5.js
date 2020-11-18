@@ -9,7 +9,16 @@ const db = require('./db');
 
 const test = async () => {
   try {
-    const products = await db.getAllProducts();
+    const database = await db.connect();
+    const products = await database
+      .collection('products')
+      .find({
+        $text: { $search: 'red leather boots' },
+      })
+      .project({
+        relevance: { $meta: 'textScore' },
+      })
+      .toArray();
     debug(products);
   } catch (err) {
     debug(err.stack);
