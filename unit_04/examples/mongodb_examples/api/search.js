@@ -16,16 +16,17 @@ router.get('/', async (req, res, next) => {
     const maxPrice = parseFloat(req.query.maxPrice);
     const minRating = parseFloat(req.query.minRating);
     const sortBy = req.query.sortBy;
+    const collation = { locale: 'en_US', strength: 1 };
 
     const matchStage = {};
     if (q) {
       matchStage.$text = { $search: q };
     }
     if (category) {
-      matchStage.category = category;
+      matchStage.category = { $eq: category };
     }
     if (color) {
-      matchStage.colors = color;
+      matchStage.colors = { $eq: color };
     }
     if (minPrice && maxPrice) {
       matchStage.price = { $gte: minPrice, $lte: maxPrice };
@@ -85,7 +86,9 @@ router.get('/', async (req, res, next) => {
     ];
 
     const conn = await db.connect();
-    const cursor = conn.collection('products').aggregate(pipeline);
+    const cursor = conn
+      .collection('products')
+      .aggregate(pipeline, { collation: collation });
     const results = await cursor.toArray();
     res.json(results);
   } catch (err) {
