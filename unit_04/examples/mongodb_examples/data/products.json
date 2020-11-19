@@ -1,26 +1,20 @@
 [
   {
-    "_id": {
-      "$oid": "5fadafbd65f3535804039dce"
-    },
+    "_id": { "$oid": "5fadafbd65f3535804039dce" },
     "name": "Red Boots",
     "price": 160,
     "category": "boots",
     "size": ["S", "M", "L"]
   },
   {
-    "_id": {
-      "$oid": "5fadb05265f3535804039dcf"
-    },
+    "_id": { "$oid": "5fadb05265f3535804039dcf" },
     "name": "Big Boots",
     "price": 200,
     "category": "boots",
     "size": "big"
   },
   {
-    "_id": {
-      "$oid": "5fadb0dc65f3535804039dd0"
-    },
+    "_id": { "$oid": "5fadb0dc65f3535804039dd0" },
     "name": "Gold Eagle Buckle",
     "price": 50,
     "category": "buckle"

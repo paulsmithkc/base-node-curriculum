@@ -9,8 +9,8 @@ const db = require('./db');
 
 const test = async () => {
   try {
-    const database = await db.connect();
-    const products = await database
+    const conn = await db.connect();
+    const products = await conn
       .collection('products')
       .find({
         $text: { $search: 'red leather boots' },

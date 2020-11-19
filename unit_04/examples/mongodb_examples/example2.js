@@ -9,8 +9,8 @@ const db = require('./db');
 
 const test = async () => {
   try {
-    const database = await db.connect();
-    const products = await database.collection('products').find({}).toArray();
+    const conn = await db.connect();
+    const products = await conn.collection('products').find({}).toArray();
     debug(products);
   } catch (err) {
     debug(err.stack);
