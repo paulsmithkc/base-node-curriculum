@@ -16,6 +16,8 @@ router.get('/', async (req, res, next) => {
     const maxPrice = parseFloat(req.query.maxPrice);
     const minRating = parseFloat(req.query.minRating);
     const sortBy = req.query.sortBy;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
     const collation = { locale: 'en_US', strength: 1 };
 
     const matchStage = {};
@@ -83,6 +85,8 @@ router.get('/', async (req, res, next) => {
         $match: minRating ? { ratingAvg: { $gte: minRating } } : {},
       },
       { $sort: sortStage },
+      { $skip: (page - 1) * pageSize },
+      { $limit: pageSize },
     ];
 
     const conn = await db.connect();
