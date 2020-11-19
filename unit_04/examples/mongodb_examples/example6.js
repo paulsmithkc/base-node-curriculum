@@ -10,7 +10,7 @@ const db = require('./db');
 const test = async () => {
   try {
     const conn = await db.connect();
-    const products = await conn
+    const results = await conn
       .collection('products')
       .aggregate([
         {
@@ -41,12 +41,12 @@ const test = async () => {
             relevance: { $meta: 'textScore' },
           },
         },
-        //{ $match: { avgRating: { $gte: 3 } } },
-        { $sort: { relevance: { $meta: 'textScore' } } },
+        //{ $match: { ratingAvg: { $gte: 3 } } },
+        { $sort: { relevance: -1 } },
       ])
       .toArray();
 
-    debug(JSON.stringify(products, null, 2));
+    debug(JSON.stringify(results, null, 2));
   } catch (err) {
     debug(err.stack);
   }
