@@ -93,8 +93,23 @@ router.get('/', async (req, res, next) => {
     const cursor = conn
       .collection('products')
       .aggregate(pipeline, { collation: collation });
-    const results = await cursor.toArray();
-    res.json(results);
+
+    // const results = await cursor.toArray();
+    // return res.json(results);
+
+    // res.type('application/json');
+    // res.write('[\n');
+    // cursor.on('data', (doc) => res.write(JSON.stringify(doc) + ',\n'));
+    // cursor.on('end', () => res.end('null]'));
+    // cursor.on('error', (err) => next(err));
+
+    res.type('application/json');
+    res.write('[\n');
+    for await (const doc of cursor) {
+      res.write(JSON.stringify(doc));
+      res.write(',\n');
+    }
+    res.end('null]');
   } catch (err) {
     next(err);
   }
