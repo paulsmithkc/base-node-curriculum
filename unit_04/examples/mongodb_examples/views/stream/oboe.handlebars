@@ -30,7 +30,7 @@
     let seen = 0;
     let chunk = [];
 
-    const showChunk = (chunk) => {
+    const showChunk = () => {
       for (const item of chunk) {
         const newElement = document.createElement('div');
         newElement.className = 'm-2';
@@ -39,6 +39,7 @@
         ++seen;
       }
       outputSeen.textContent = `${seen} items seen`;
+      chunk = [];
     };
 
     oboe('/api/stream')
@@ -47,12 +48,13 @@
           chunk.push(item);
           if (chunk.length >= 1000) {
             showChunk(chunk);
-            chunk = [];
           }
         }
         return oboe.drop;
       })
       .done(_ => {
+        // show the last chunk
+        showChunk(chunk);
         // hide the spinner
         outputSpinner.classList.add('d-none');
       })
