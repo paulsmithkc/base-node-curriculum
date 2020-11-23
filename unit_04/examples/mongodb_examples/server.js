@@ -40,6 +40,7 @@ app.get('/', (req, res) => res.render('home'));
 app.use('/api/search', require('./api/search'));
 app.use('/api/product', require('./api/product'));
 app.use('/api/cart', require('./api/cart'));
+app.use('/api/stream', require('./api/stream'));
 
 // static files
 app.use('/', express.static('public'));
