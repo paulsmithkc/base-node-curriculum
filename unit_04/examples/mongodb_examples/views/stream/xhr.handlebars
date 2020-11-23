@@ -1,6 +1,6 @@
 <main class="container mt-5">
   <h1>
-    XHR Data Streaming Example
+    XHR API - Data Streaming Example
   </h1>
   <p>
     Data will be loading in below as it is received.
@@ -31,11 +31,11 @@
     const outputSeen = document.getElementById('stream-data-seen');
     const output = document.getElementById('stream-data');
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/stream');
+    xhr.open('GET', '/api/stream');
     xhr.responseType = 'text';
     xhr.seen = 0;
     
-    xhr.onreadystatechange = () => {
+    xhr.onreadystatechange = (evt) => {
       if (xhr.readyState > 2) {
 
         // show the new data
@@ -50,9 +50,16 @@
         outputSeen.innerHTML = `${xhr.seen.toFixed(0)} characters seen`;
       }
     };
-    xhr.onload = () => {
+    xhr.onload = (evt) => {
       // hide the spinner
       outputSpinner.classList.add('d-none');
+    };
+    xhr.onerror = (evt) => {
+      // show the error
+      outputSeen.innerHTML = 'ERROR: network error';
+      outputSeen.classList.add('text-danger');
+      // hide the spinner
+      outputSpinner.classList.add('text-danger');
     };
 
     xhr.send();
