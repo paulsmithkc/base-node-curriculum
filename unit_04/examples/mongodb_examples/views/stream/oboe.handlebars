@@ -1,0 +1,59 @@
+<main class="container mt-5">
+  <h1>
+    Oboe.js - Data Streaming Example
+  </h1>
+  <p>
+    Data will be loading in below as it is received.
+  </p>
+  <div class="d-flex align-items-center">
+    <span id="stream-data-spinner" class="spinner-border m-2"></span>
+    <span id="stream-data-seen" class="m-2" style="font-weight: 900;">
+      Loading...
+    </span>
+  </div>
+  <div id="stream-data" class="d-flex flex-wrap"></div>
+</main>
+
+<script src="/js/oboe.min.js"></script>
+<script>
+  // Written using Oboe.js
+  // See: http://oboejs.com/
+
+  window.onload = () => {
+    setTimeout(streamData, 1000);
+  }
+
+  const streamData = () => {
+    const outputSpinner = document.getElementById('stream-data-spinner');
+    const outputSeen = document.getElementById('stream-data-seen');
+    const output = document.getElementById('stream-data');
+    let seen = 0;
+
+    oboe('/api/stream')
+      .node('![*]', item => {
+        if (item) {
+          // show the new data
+          const newElement = document.createElement('div');
+          newElement.className = 'm-2';
+          newElement.appendChild(document.createTextNode(item.num));
+          output.appendChild(newElement);
+
+          // update the number of items we have seen sofar
+          ++seen;
+          outputSeen.textContent = `${seen} items seen`;
+        }
+        return oboe.drop;
+      })
+      .done(_ => {
+        // hide the spinner
+        outputSpinner.classList.add('d-none');
+      })
+      .fail(res => {
+        // show the error
+        console.error(res);
+        outputSeen.textContent = `ERROR: network error`;
+        outputSeen.classList.add('text-danger');
+        outputSpinner.classList.add('text-danger');
+      });
+  }
+</script>
