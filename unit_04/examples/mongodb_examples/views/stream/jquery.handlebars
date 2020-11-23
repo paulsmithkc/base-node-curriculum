@@ -1,0 +1,53 @@
+<main class="container mt-5">
+  <h1>
+    jQuery - Data Streaming Example
+  </h1>
+  <p>
+    Data will be loading in below as it is received.
+  </p>
+  <div class="d-flex align-items-center">
+    <span id="stream-data-spinner" class="spinner-border m-2"></span>
+    <span id="stream-data-seen" class="m-2" style="font-weight: 900;">
+      Loading...
+    </span>
+  </div>
+  <div id="stream-data" class="d-flex flex-wrap"></div>
+</main>
+
+<script src="/js/jquery.min.js"></script>
+<script>
+  // Written using jQuery.ajax()
+  // See: https://api.jquery.com/jquery.ajax/
+
+  window.onload = () => {
+    setTimeout(streamData, 1000);
+  }
+
+  const streamData = () => {
+    const outputSpinner = $('#stream-data-spinner');
+    const outputSeen = $('#stream-data-seen');
+    const output = $('#stream-data');
+
+    $.ajax('/api/stream')
+      .done(items => {
+        // show the new data
+        let seen = 0;
+        for (const item of items) {
+          if (item) {
+            output.append(`<div class="m-2">${item.num}</div>`);
+            ++seen;
+          }
+        }
+        // update the counter
+        outputSeen.html(`${seen} items seen`);
+        // hide the spinner
+        outputSpinner.addClass('d-none');
+      })
+      .fail(() => {
+        // show the error
+        outputSeen.html('ERROR: network error');
+        outputSeen.addClass('text-danger');
+        outputSpinner.addClass('text-danger');
+      });
+  }
+</script>
