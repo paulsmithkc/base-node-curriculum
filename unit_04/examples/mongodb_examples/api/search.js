@@ -1,4 +1,4 @@
-const debug = require('debug')('app:api:product');
+const debug = require('debug')('app:api:search');
 const express = require('express');
 const Joi = require('joi');
 const db = require('../db');
