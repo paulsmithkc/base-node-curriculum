@@ -30,25 +30,25 @@
     const outputSpinner = document.getElementById('stream-data-spinner');
     const outputSeen = document.getElementById('stream-data-seen');
     const output = document.getElementById('stream-data');
+    let seen = 0;
     
     const xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/stream');
     xhr.responseType = 'text';
-    xhr.seen = 0;
     
     xhr.onreadystatechange = (evt) => {
       if (xhr.readyState > 2) {
 
         // show the new data
-        const newData = xhr.responseText.substr(xhr.seen);
+        const newData = xhr.responseText.substr(seen);
         const newElement = document.createElement('div');
         newElement.className = 'border mb-3';
         newElement.appendChild(document.createTextNode(newData));
         output.appendChild(newElement);
 
         // update the number of characters we have seen sofar
-        xhr.seen = xhr.responseText.length;
-        outputSeen.innerHTML = `${xhr.seen.toFixed(0)} characters seen`;
+        seen = xhr.responseText.length;
+        outputSeen.textContent = `${seen.toFixed(0)} characters seen`;
       }
     };
     xhr.onload = (evt) => {
@@ -57,7 +57,7 @@
     };
     xhr.onerror = (evt) => {
       // show the error
-      outputSeen.innerHTML = 'ERROR: network error';
+      outputSeen.textContent = 'ERROR: network error';
       outputSeen.classList.add('text-danger');
       outputSpinner.classList.add('text-danger');
     };

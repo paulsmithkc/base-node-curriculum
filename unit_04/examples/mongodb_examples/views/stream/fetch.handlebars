@@ -30,16 +30,16 @@
     const outputSpinner = document.getElementById('stream-data-spinner');
     const outputSeen = document.getElementById('stream-data-seen');
     const output = document.getElementById('stream-data');
+    let seen = 0;
     
     fetch('/api/stream').then((res) => {
       if (!res.ok) {
-        outputSeen.innerHTML = `ERROR: ${res.statusText}`;
+        outputSeen.textContent = `ERROR: ${res.statusText}`;
         outputSeen.classList.add('text-danger');
         outputSpinner.classList.add('text-danger');
       } else {
         const reader = res.body.getReader();
         const decoder = new TextDecoder('utf-8');
-        let seen = 0;
         reader.read().then(function pump ({done, value}) {
           if (done) {
             // hide the spinner
@@ -53,7 +53,7 @@
             output.appendChild(newElement);
             // update the number of characters we have seen sofar
             seen += value.length;
-            outputSeen.innerHTML = `${seen.toFixed(0)} characters seen`;
+            outputSeen.textContent = `${seen.toFixed(0)} characters seen`;
             // continue reading
             return reader.read().then(pump);
           }
@@ -61,7 +61,7 @@
       }
     }).catch(err => {
       // show the error
-      outputSeen.innerHTML = `ERROR: ${err.message}`;
+      outputSeen.textContent = `ERROR: ${err.message}`;
       outputSeen.classList.add('text-danger');
       outputSpinner.classList.add('text-danger');
     });
