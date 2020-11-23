@@ -38,6 +38,7 @@ app.use(morgan('tiny'));
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.get('/stream/xhr', (req, res) => res.render('stream/xhr'));
+app.get('/stream/fetch', (req, res) => res.render('stream/fetch'));
 app.use('/api/search', require('./api/search'));
 app.use('/api/product', require('./api/product'));
 app.use('/api/cart', require('./api/cart'));

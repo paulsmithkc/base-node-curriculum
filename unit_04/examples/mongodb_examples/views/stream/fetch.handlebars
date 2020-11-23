@@ -1,0 +1,69 @@
+<main class="container mt-5">
+  <h1>
+    Fetch API - Data Streaming Example
+  </h1>
+  <p>
+    Data will be loading in below as it is received.
+  </p>
+  <div class="d-flex align-items-center">
+    <span id="stream-data-spinner" class="spinner-border m-2"></span>
+    <span id="stream-data-seen" class="m-2" style="font-weight: 900;">
+      Loading...
+    </span>
+  </div>
+  <div
+    id="stream-data"
+    style="font-family: monospace; white-space:normal;"
+  ></div>
+</main>
+
+<script>
+  // Written in pure JavaScript using the Fetch API
+  // See: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+  // See: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+
+  window.onload = () => {
+    setTimeout(streamData, 1000);
+  }
+
+  const streamData = () => {
+    const outputSpinner = document.getElementById('stream-data-spinner');
+    const outputSeen = document.getElementById('stream-data-seen');
+    const output = document.getElementById('stream-data');
+    
+    fetch('/api/stream').then((res) => {
+      if (!res.ok) {
+        outputSeen.innerHTML = `ERROR: ${res.statusText}`;
+        outputSeen.classList.add('text-danger');
+        outputSpinner.classList.add('text-danger');
+      } else {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let seen = 0;
+        reader.read().then(function pump ({done, value}) {
+          if (done) {
+            // hide the spinner
+            outputSpinner.classList.add('d-none');
+          } else {
+            // show the new data
+            const newData = decoder.decode(value);
+            const newElement = document.createElement('div');
+            newElement.className = 'border mb-3';
+            newElement.appendChild(document.createTextNode(newData));
+            output.appendChild(newElement);
+            // update the number of characters we have seen sofar
+            seen += value.length;
+            outputSeen.innerHTML = `${seen.toFixed(0)} characters seen`;
+            // continue reading
+            return reader.read().then(pump);
+          }
+        });
+      }
+    }).catch(err => {
+      // show the error
+      outputSeen.innerHTML = `ERROR: ${err.message}`;
+      outputSeen.classList.add('text-danger');
+      outputSpinner.classList.add('text-danger');
+    });
+  }
+</script>
