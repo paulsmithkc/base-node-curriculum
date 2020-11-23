@@ -30,6 +30,7 @@
     const outputSpinner = document.getElementById('stream-data-spinner');
     const outputSeen = document.getElementById('stream-data-seen');
     const output = document.getElementById('stream-data');
+    
     const xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/stream');
     xhr.responseType = 'text';
@@ -58,7 +59,6 @@
       // show the error
       outputSeen.innerHTML = 'ERROR: network error';
       outputSeen.classList.add('text-danger');
-      // hide the spinner
       outputSpinner.classList.add('text-danger');
     };
 
