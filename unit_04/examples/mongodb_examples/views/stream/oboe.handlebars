@@ -28,19 +28,27 @@
     const outputSeen = document.getElementById('stream-data-seen');
     const output = document.getElementById('stream-data');
     let seen = 0;
+    let chunk = [];
+
+    const showChunk = (chunk) => {
+      for (const item of chunk) {
+        const newElement = document.createElement('div');
+        newElement.className = 'm-2';
+        newElement.appendChild(document.createTextNode(item.num));
+        output.appendChild(newElement);
+        ++seen;
+      }
+      outputSeen.textContent = `${seen} items seen`;
+    };
 
     oboe('/api/stream')
       .node('![*]', item => {
         if (item) {
-          // show the new data
-          const newElement = document.createElement('div');
-          newElement.className = 'm-2';
-          newElement.appendChild(document.createTextNode(item.num));
-          output.appendChild(newElement);
-
-          // update the number of items we have seen sofar
-          ++seen;
-          outputSeen.textContent = `${seen} items seen`;
+          chunk.push(item);
+          if (chunk.length >= 1000) {
+            showChunk(chunk);
+            chunk = [];
+          }
         }
         return oboe.drop;
       })
@@ -50,7 +58,6 @@
       })
       .fail(res => {
         // show the error
-        console.error(res);
         outputSeen.textContent = `ERROR: network error`;
         outputSeen.classList.add('text-danger');
         outputSpinner.classList.add('text-danger');

@@ -8,7 +8,7 @@ router.all('/', async (req, res, next) => {
     res.type('application/json');
     res.write('[\n');
 
-    for (let i = 0; i < 1000000; ++i) {
+    for (let i = 0; i < 100000; ++i) {
       res.write(`{ "num": ${i} },\n`);
     }
 
