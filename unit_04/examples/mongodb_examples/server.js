@@ -41,6 +41,7 @@ app.get('/stream/jquery', (req, res) => res.render('stream/jquery'));
 app.get('/stream/xhr', (req, res) => res.render('stream/xhr'));
 app.get('/stream/fetch', (req, res) => res.render('stream/fetch'));
 app.get('/stream/oboe', (req, res) => res.render('stream/oboe'));
+app.get('/stream/oboe-worker', (req, res) => res.render('stream/oboe-worker'));
 app.use('/api/search', require('./api/search'));
 app.use('/api/product', require('./api/product'));
 app.use('/api/cart', require('./api/cart'));
