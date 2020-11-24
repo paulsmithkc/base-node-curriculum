@@ -1,4 +1,4 @@
-importScripts('/js/oboe-browser.js');
+importScripts('/js/oboe-browser.min.js');
 
 self.onmessage = (evt) => {
   const cmd = evt.data.cmd;
