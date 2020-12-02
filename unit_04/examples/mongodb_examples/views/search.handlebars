@@ -36,6 +36,83 @@
       </select>
     </div>
     <div class="form-group">
+      <label for="color">
+        Color
+      </label>
+      <select id="color" name="color" class="form-control">
+        <option value="">
+          All Colors
+        </option>
+        <option value="red">
+          Red
+        </option>
+        <option value="green">
+          Green
+        </option>
+        <option value="blue">
+          Blue
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="minPrice">
+        Min Price
+      </label>
+      <input
+        id="minPrice"
+        name="minPrice"
+        type="number"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="maxPrice">
+        Max Price
+      </label>
+      <input
+        id="maxPrice"
+        name="maxPrice"
+        type="number"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="minRating">
+        Min Rating
+      </label>
+      <input
+        id="minRating"
+        name="minRating"
+        type="number"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="sortBy">
+        Sort By
+      </label>
+      <select id="sortBy" name="sortBy" class="form-control">
+        <option value="">
+          Default
+        </option>
+        <option value="name">
+          Product Name
+        </option>
+        <option value="rating">
+          Average Rating
+        </option>
+        <option value="lowest price">
+          Price (low to high)
+        </option>
+        <option value="highest price">
+          Price (high to low)
+        </option>
+        <option value="relevance">
+          Relevance
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
       <label for="pageSize">
         Page Size
       </label>
@@ -76,8 +153,16 @@
               <div class="card mb-3">
                 <div class="card-header">${item.name}</div>
                 <div class="card-body">
-                  <div>${item.category}</div>
-                  <div>${item.description}</div>
+                  <div>
+                    Rating: ${(item.ratingAvg || 0).toFixed(1)} out of 5.0,
+                    over ${(item.ratingCount || 0).toFixed(0)} ratings
+                  </div>
+                  <div>
+                    Price: $${(item.price || 0).toFixed(2)}
+                  </div>
+                  <div>Category: ${item.category}</div>
+                  <div>Colors: ${item.colors}</div>
+                  <div class="mt-3">${item.description}</div>
                 </div>
               </div>
             `);
@@ -98,7 +183,7 @@
         evt.preventDefault();
         performSearch();
       });
-      $('#category').on('change', (evt) => {
+      $('#search-form select').on('change', (evt) => {
         $('#search-form').trigger('submit');
       });
     });
