@@ -1,0 +1,106 @@
+<main class="container mt-5">
+  <h1>
+    Search
+  </h1>
+  <form id="search-form" method="GET" class="border mb-3 p-3">
+    <div class="form-group">
+      <label for="q">
+        Keywords
+      </label>
+      <input
+        id="q"
+        name="q"
+        type="search"
+        placeholder="red leather boots ..."
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="category">
+        Category
+      </label>
+      {{! <input id="category" name="category" type="text" class="form-control"> }}
+      <select id="category" name="category" class="form-control">
+        <option value="">
+          All Categories
+        </option>
+        <option value="boots">
+          Boots
+        </option>
+        <option value="hats">
+          Hats
+        </option>
+        <option value="buckles">
+          Buckles
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="pageSize">
+        Page Size
+      </label>
+      <select id="pageSize" name="pageSize" class="form-control">
+        <option value="10">
+          10 items per page
+        </option>
+        <option value="20">
+          20 items per page
+        </option>
+        <option value="100" selected>
+          100 items per page
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">
+        Search
+      </button>
+    </div>
+  </form>
+  <div id="search-results-spinner" class="spinner-border m-2"></div>
+  <div id="search-results"></div>
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/oboe-browser.min.js"></script>
+  <script>
+    const performSearch = () => {
+      $('#search-results-spinner').removeClass('d-none');
+      $('#search-results').html('');
+
+      const formData = $('#search-form').serialize();
+
+      oboe('/api/search?' + formData)
+        .node('![*]', item => {
+          if (item) {
+            $('#search-results').append(`
+              <div class="card mb-3">
+                <div class="card-header">${item.name}</div>
+                <div class="card-body">
+                  <div>${item.category}</div>
+                  <div>${item.description}</div>
+                </div>
+              </div>
+            `);
+          }
+          return oboe.drop;
+        })
+        .done(_ => {
+          $('#search-results-spinner').addClass('d-none');
+        })
+        .fail(res => {
+          // TODO: show error message
+        });
+    };
+
+    $(() => {
+      performSearch();
+      $('#search-form').on('submit', (evt) => {
+        evt.preventDefault();
+        performSearch();
+      });
+      $('#category').on('change', (evt) => {
+        $('#search-form').trigger('submit');
+      });
+    });
+  </script>
+</main>

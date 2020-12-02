@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
     const minRating = parseFloat(req.query.minRating);
     const sortBy = req.query.sortBy;
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 10;
+    const pageSize = parseInt(req.query.pageSize) || 100;
     const collation = { locale: 'en_US', strength: 1 };
 
     const matchStage = {};

@@ -37,6 +37,7 @@ app.use(morgan('tiny'));
 
 // routes
 app.get('/', (req, res) => res.render('home'));
+app.get('/search', (req, res) => res.render('search', { title: 'Search' }));
 app.get('/stream/jquery', (req, res) => res.render('stream/jquery'));
 app.get('/stream/xhr', (req, res) => res.render('stream/xhr'));
 app.get('/stream/fetch', (req, res) => res.render('stream/fetch'));
