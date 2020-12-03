@@ -1,6 +1,6 @@
 // const debug = require('debug')('app:api');
 const express = require('express');
-const joi = require('@hapi/joi');
+const joi = require('joi');
 const db = require('../db');
 
 // define the schema for a valid note

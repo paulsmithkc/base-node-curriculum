@@ -16,7 +16,7 @@ const db = require('./db');
 })();
 
 // inject joi-objectid
-const joi = require('@hapi/joi');
+const joi = require('joi');
 joi.objectId = require('joi-objectid')(joi);
 
 // create express app
