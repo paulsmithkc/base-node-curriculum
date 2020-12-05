@@ -42,6 +42,7 @@
       chunk = [];
     };
 
+    const t0 = performance.now();
     bassoon('/api/stream')
       .on('data', item => {
         if (item) {
@@ -52,6 +53,9 @@
         }
       })
       .on('end', evt => {
+        const t1 = performance.now();
+        console.log(`${(t1 - t0).toFixed(0)} milliseconds elapsed`);
+
         // show the last chunk
         showChunk(chunk);
         // hide the spinner
