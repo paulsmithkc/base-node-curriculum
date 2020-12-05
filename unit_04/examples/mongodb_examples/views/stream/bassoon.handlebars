@@ -1,0 +1,67 @@
+<main class="container mt-5">
+  <h1>
+    Bassoon.js - Data Streaming Example
+  </h1>
+  <p>
+    Data will be loading in below as it is received.
+  </p>
+  <div class="d-flex align-items-center">
+    <span id="stream-data-spinner" class="spinner-border m-2"></span>
+    <span id="stream-data-seen" class="m-2" style="font-weight: 900;">
+      Loading...
+    </span>
+  </div>
+  <div id="stream-data" class="d-flex flex-wrap"></div>
+</main>
+
+<script src="/js/bassoon.min.js"></script>
+<script>
+  // Written using Bassoon.js
+  // See: https://github.com/paulsmithkc/bassoon/
+
+  window.onload = () => {
+    setTimeout(streamData, 1000);
+  }
+
+  const streamData = () => {
+    const outputSpinner = document.getElementById('stream-data-spinner');
+    const outputSeen = document.getElementById('stream-data-seen');
+    const output = document.getElementById('stream-data');
+    let seen = 0;
+    let chunk = [];
+
+    const showChunk = () => {
+      for (const item of chunk) {
+        const newElement = document.createElement('div');
+        newElement.className = 'm-2';
+        newElement.appendChild(document.createTextNode(item.num));
+        output.appendChild(newElement);
+        ++seen;
+      }
+      outputSeen.textContent = `${seen} items seen`;
+      chunk = [];
+    };
+
+    bassoon('/api/stream')
+      .on('data', item => {
+        if (item) {
+          chunk.push(item);
+          if (chunk.length >= 1000) {
+            showChunk(chunk);
+          }
+        }
+      })
+      .on('end', evt => {
+        // show the last chunk
+        showChunk(chunk);
+        // hide the spinner
+        outputSpinner.classList.add('d-none');
+      })
+      .on('error', evt => {
+        // show the error
+        outputSeen.textContent = `ERROR: network error`;
+        outputSeen.classList.add('text-danger');
+        outputSpinner.classList.add('text-danger');
+      });
+  }
+</script>
